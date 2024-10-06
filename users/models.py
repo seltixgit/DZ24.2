@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
 from materials.models import Course, Lesson
 
 NULLABLE = {"blank": True, "null": True}
@@ -35,15 +36,23 @@ class User(AbstractUser):
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Кто произвел оплату")
-    payment_date = models.DateField(verbose_name='Дата платежа')
-    payment_course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Оплаченный курс", **NULLABLE)
-    payment_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name="Оплаченный урок", **NULLABLE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Кто произвел оплату"
+    )
+    payment_date = models.DateField(verbose_name="Дата платежа")
+    payment_course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, verbose_name="Оплаченный курс", **NULLABLE
+    )
+    payment_lesson = models.ForeignKey(
+        Lesson, on_delete=models.CASCADE, verbose_name="Оплаченный урок", **NULLABLE
+    )
     cost = models.PositiveIntegerField(default=0, verbose_name="Стоимость покупки")
     CASH = "cash"
     NON_CASH = "non_cash"
     PAYMENT_METHOD = [(CASH, "cash"), (NON_CASH, "non_cash")]
-    payment_method = models.CharField(choices=PAYMENT_METHOD, default=CASH, verbose_name='Способ оплаты')
+    payment_method = models.CharField(
+        choices=PAYMENT_METHOD, default=CASH, verbose_name="Способ оплаты"
+    )
 
     class Meta:
         verbose_name = "Оплата"
@@ -51,4 +60,3 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.payment_method
-    
