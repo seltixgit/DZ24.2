@@ -1,5 +1,7 @@
 from django.db import models
 
+from config.settings import AUTH_USER_MODEL
+
 NULLABLE = {"blank": True, "null": True}
 
 
@@ -15,6 +17,12 @@ class Course(models.Model):
     )
     description = models.TextField(
         **NULLABLE, verbose_name="Описание курса", help_text="Укажите описание курса"
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец курса",
+        **NULLABLE
     )
 
     class Meta:
@@ -48,6 +56,12 @@ class Lesson(models.Model):
         **NULLABLE,
         verbose_name="Ссылка на видео",
         help_text="Укажите ссылку на видео",
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец урока",
+        **NULLABLE
     )
 
     class Meta:
