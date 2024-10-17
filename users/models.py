@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -22,6 +24,9 @@ class User(AbstractUser):
         **NULLABLE,
         verbose_name="Аватар",
         help_text="Загрузите аватар"
+    )
+    last_login = models.DateTimeField(
+        default=datetime.now, verbose_name="Время последнего посещения", **NULLABLE
     )
 
     USERNAME_FIELD = "email"
@@ -53,9 +58,18 @@ class Payment(models.Model):
     payment_method = models.CharField(
         choices=PAYMENT_METHOD, default=CASH, verbose_name="Способ оплаты"
     )
-    session_id = models.CharField(max_length=255, verbose_name='Id сессии', help_text='Укажите id сессии', **NULLABLE)
-    link = models.URLField(max_length=400, verbose_name='Ссылка на оплату', help_text='Укажите ссылку на оплату',
-                           **NULLABLE)
+    session_id = models.CharField(
+        max_length=255,
+        verbose_name="Id сессии",
+        help_text="Укажите id сессии",
+        **NULLABLE
+    )
+    link = models.URLField(
+        max_length=400,
+        verbose_name="Ссылка на оплату",
+        help_text="Укажите ссылку на оплату",
+        **NULLABLE
+    )
 
     class Meta:
         verbose_name = "Оплата"
