@@ -22,7 +22,7 @@ class Course(models.Model):
         AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         verbose_name="Владелец курса",
-        **NULLABLE
+        **NULLABLE,
     )
 
     class Meta:
@@ -61,7 +61,7 @@ class Lesson(models.Model):
         AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         verbose_name="Владелец урока",
-        **NULLABLE
+        **NULLABLE,
     )
 
     class Meta:
@@ -70,13 +70,22 @@ class Lesson(models.Model):
 
 
 class Subscription(models.Model):
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь', **NULLABLE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс', **NULLABLE)
-    sign_of_subscription = models.BooleanField(default=False, verbose_name='Признак подписки')
+    user = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        **NULLABLE,
+    )
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, verbose_name="Курс", **NULLABLE
+    )
+    sign_of_subscription = models.BooleanField(
+        default=False, verbose_name="Признак подписки"
+    )
 
     class Meta:
         verbose_name = "Подписка"
         verbose_name_plural = "Подписки"
 
     def __str__(self):
-        return f'{self.user}: {self.course}'
+        return f"{self.user}: {self.course}"
